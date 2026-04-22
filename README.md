@@ -2,6 +2,25 @@
 
 ArvyaX is a Flutter mindfulness ambience app. It lets users browse calming ambience sessions, play audio with a focused session player, loop or pause playback, continue playback while the screen is locked, and write a reflection after a session ends. Journal entries are stored locally and can be viewed later from the history screen.
 
+## Demo And Download
+
+- [Demo video](https://drive.google.com/file/d/1hLs4cFtzUQ654kE8i6HmVHQMBbNGhi7c/view?usp=drivesdk)
+- [APK download](https://drive.google.com/file/d/1QEhI4L54t_wo_GGoDum5-9wZQDskxjJr/view?usp=drivesdk)
+
+## Screenshots
+
+| Home | Ambience Details | Session Player |
+| --- | --- | --- |
+| ![Home screen](assets/screenshots/image1.jpeg) | ![Ambience details](assets/screenshots/image2.jpeg) | ![Session player](assets/screenshots/image3.jpeg) |
+
+| Reflection | Journal History | Journal Detail |
+| --- | --- | --- |
+| ![Reflection screen](assets/screenshots/image4.jpeg) | ![Journal history](assets/screenshots/image5.jpeg) | ![Journal detail](assets/screenshots/image6.jpeg) |
+
+| Extra Screen | Extra Screen |
+| --- | --- |
+| ![Extra screen](assets/screenshots/image7.jpeg) | ![Extra screen](assets/screenshots/iamge2.jpeg) |
+
 ## How To Run
 
 1. Install Flutter and make sure the SDK is available:

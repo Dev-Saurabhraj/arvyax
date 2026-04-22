@@ -11,6 +11,15 @@ class PlayerInitial extends PlayerState {
   List<Object?> get props => [];
 }
 
+class PlayerStarting extends PlayerState {
+  final Ambience ambience;
+
+  const PlayerStarting(this.ambience);
+
+  @override
+  List<Object?> get props => [ambience];
+}
+
 class PlayerActive extends PlayerState {
   final SessionState sessionState;
   final List<int> frequencyData; // For audio visualization

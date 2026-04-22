@@ -42,7 +42,10 @@ class PrimaryButton extends StatelessWidget {
                   strokeWidth: 2,
                 ),
               )
-            : Text(text, style: AppTextStyles.titleMedium.copyWith(color: AppColors.white)),
+            : Text(
+                text,
+                style: AppTextStyles.titleMedium.copyWith(color: textColor),
+              ),
       ),
     );
   }

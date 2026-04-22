@@ -130,7 +130,42 @@ class _PlayerScreenState extends State<PlayerScreen> {
         body: BlocBuilder<PlayerBloc, PlayerState>(
           builder: (context, state) {
             if (state is PlayerInitial) {
-              return const Center(child: Text('No active session'));
+              return EmptyState(
+                title: 'No Active Session',
+                description:
+                    'Choose an ambience from the home screen to begin a session.',
+                icon: AppIcons.music,
+                actionLabel: 'Explore Ambiences',
+                onActionPressed: () => context.go('/'),
+              );
+            }
+
+            if (state is PlayerStarting) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(spacingLG),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const CircularProgressIndicator(),
+                      const SizedBox(height: spacingLG),
+                      Text(
+                        'Starting ${state.ambience.title}',
+                        style: AppTextStyles.titleLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: spacingSM),
+                      Text(
+                        'Preparing your audio session...',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              );
             }
 
             if (state is PlayerError) {
@@ -139,6 +174,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   title: 'Error',
                   description: state.message,
                   icon: AppIcons.error,
+                  actionLabel: 'Back to Home',
+                  onActionPressed: () => context.go('/'),
                 ),
               );
             }
@@ -411,7 +448,26 @@ class _PlayerScreenState extends State<PlayerScreen> {
               );
             }
 
-            return const SizedBox();
+            if (state is SessionEnded) {
+              return Center(
+                child: EmptyState(
+                  title: 'Session Complete',
+                  description:
+                      'Your session has ended. Opening reflection next.',
+                  icon: AppIcons.check,
+                  actionLabel: 'Go Home',
+                  onActionPressed: () => context.go('/'),
+                ),
+              );
+            }
+
+            return EmptyState(
+              title: 'Something Went Wrong',
+              description: 'The player reached an unknown state.',
+              icon: AppIcons.error,
+              actionLabel: 'Back to Home',
+              onActionPressed: () => context.go('/'),
+            );
           },
         ),
       ),

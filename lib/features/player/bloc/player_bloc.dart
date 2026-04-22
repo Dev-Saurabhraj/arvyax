@@ -38,6 +38,12 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     Emitter<PlayerState> emit,
   ) async {
     try {
+      emit(PlayerStarting(event.ambience));
+      await _positionSubscription?.cancel();
+      await _processingStateSubscription?.cancel();
+      _sessionTimer?.cancel();
+      await audioPlayer.stop();
+
       final sessionId = const Uuid().v4();
       _currentSession = SessionState(
         id: sessionId,
@@ -59,6 +65,11 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
       _setupCompletionListener();
       _setupSessionTimer(event.ambience.durationInSeconds);
     } catch (e) {
+      _currentSession = null;
+      _sessionTimer?.cancel();
+      await _positionSubscription?.cancel();
+      await _processingStateSubscription?.cancel();
+      await sessionRepository.clearSessionState();
       emit(PlayerError('Failed to start session: ${e.toString()}'));
     }
   }
@@ -114,12 +125,18 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   Future<void> _onSeekAudio(SeekAudio event, Emitter<PlayerState> emit) async {
     try {
       if (_currentSession != null) {
-        await audioPlayer.seek(event.position);
-        _currentSession = _currentSession!.copyWith(elapsed: event.position);
+        final duration = _currentSession!.ambience?.durationInSeconds ?? 0;
+        final maxPosition = Duration(seconds: duration);
+        final safePosition = event.position < Duration.zero
+            ? Duration.zero
+            : duration > 0 && event.position > maxPosition
+            ? maxPosition
+            : event.position;
+
+        await audioPlayer.seek(safePosition);
+        _currentSession = _currentSession!.copyWith(elapsed: safePosition);
         await sessionRepository.saveSessionState(_currentSession!);
-        emit(
-          PlayerActive(sessionState: _currentSession!, isLooping: _isLooping),
-        );
+        _emitCurrentPlaybackState(emit);
       }
     } catch (e) {
       emit(PlayerError('Failed to seek: ${e.toString()}'));
@@ -153,19 +170,19 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     Emitter<PlayerState> emit,
   ) async {
     if (_currentSession != null) {
+      final duration = _currentSession!.ambience?.durationInSeconds ?? 0;
+      final maxPosition = Duration(seconds: duration);
+      final safeElapsed = duration > 0 && event.elapsed > maxPosition
+          ? maxPosition
+          : event.elapsed;
+
       _currentSession = _currentSession!.copyWith(
-        elapsed: event.elapsed,
+        elapsed: safeElapsed,
         isPlaying: event.isPlaying,
       );
       await sessionRepository.saveSessionState(_currentSession!);
 
-      if (event.isPlaying) {
-        emit(
-          PlayerActive(sessionState: _currentSession!, isLooping: _isLooping),
-        );
-      } else {
-        emit(PlayerPaused(_currentSession!, isLooping: _isLooping));
-      }
+      _emitCurrentPlaybackState(emit);
     }
   }
 
@@ -229,9 +246,22 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
 
   void _setupSessionTimer(int durationInSeconds) {
     _sessionTimer?.cancel();
+    if (durationInSeconds <= 0) return;
+
     _sessionTimer = Timer(Duration(seconds: durationInSeconds), () {
       add(const EndSession());
     });
+  }
+
+  void _emitCurrentPlaybackState(Emitter<PlayerState> emit) {
+    final session = _currentSession;
+    if (session == null) return;
+
+    if (session.isPlaying) {
+      emit(PlayerActive(sessionState: session, isLooping: _isLooping));
+    } else {
+      emit(PlayerPaused(session, isLooping: _isLooping));
+    }
   }
 
   Future<void> _configureAudioSession() async {
