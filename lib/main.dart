@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<JournalBloc>(create: (context) => getIt<JournalBloc>()),
       ],
       child: MaterialApp.router(
-        title: 'ArvyaX',
+        title: 'Mind Space',
         theme: AppTheme.lightTheme,
         routerConfig: appRouter,
         debugShowCheckedModeBanner: false,
