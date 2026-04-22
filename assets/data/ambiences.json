@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "title": "Forest Focus",
+    "tag": "Focus",
+    "durationInSeconds": 212,
+    "description": "Immerse yourself in the calming sounds of a forest with gentle bird chirps and rustling leaves. Perfect for deep work and concentration.",
+    "imageUrl": "assets/images/forest.jpg",
+    "sensoryRecipe": ["Bird Chirps", "Rustling Leaves", "Soft Wind"],
+    "audioPath": "assets/audio/forest.mp3"
+  },
+  {
+    "id": "2",
+    "title": "Ocean Waves",
+    "tag": "Calm",
+    "durationInSeconds": 132,
+    "description": "Gentle ocean waves create a peaceful rhythm that soothes the mind and promotes relaxation. Feel the ocean breeze and tranquility.",
+    "imageUrl": "assets/images/ocean.jpg",
+    "sensoryRecipe": ["Waves", "Seagulls", "Salty Breeze"],
+    "audioPath": "assets/audio/ocean.mp3"
+  },
+  {
+    "id": "3",
+    "title": "Rainy Night",
+    "tag": "Sleep",
+    "durationInSeconds": 108,
+    "description": "Soft rain pattering on the roof creates the perfect backdrop for deep sleep. Let the natural rhythm carry you to dreamland.",
+    "imageUrl": "assets/images/rain.jpg",
+    "sensoryRecipe": ["Rain", "Thunder", "Cozy Warmth"],
+    "audioPath": "assets/audio/rain.mp3"
+  },
+  {
+    "id": "4",
+    "title": "Mountain Meditation",
+    "tag": "Calm",
+    "durationInSeconds": 116,
+    "description": "High altitude serenity with subtle winds and distant echoes. Find your inner peace on the mountain peaks.",
+    "imageUrl": "assets/images/mountain.jpg",
+    "sensoryRecipe": ["Wind", "Mountain Echo", "Silence"],
+    "audioPath": "assets/audio/mountain.mp3"
+  },
+  {
+    "id": "5",
+    "title": "Urban Reset",
+    "tag": "Reset",
+    "durationInSeconds": 70,
+    "description": "Gentle city sounds with a mix of coffee shop ambience and minimal traffic. Reset your mind in the heart of the city.",
+    "imageUrl": "assets/images/urban.jpg",
+    "sensoryRecipe": ["Coffee Shop", "Distant Traffic", "Ambient Hum"],
+    "audioPath": "assets/audio/urban.mp3"
+  },
+  {
+    "id": "6",
+    "title": "Zen Garden",
+    "tag": "Focus",
+    "durationInSeconds": 32,
+    "description": "Japanese garden ambience with water fountains and meditation bells. Enhance your focus and mindfulness.",
+    "imageUrl": "assets/images/garden.jpg",
+    "sensoryRecipe": ["Water Fountain", "Meditation Bell", "Soft Nature"],
+    "audioPath": "assets/audio/garden.mp3"
+  }
+]
